@@ -1,0 +1,1 @@
+Run `./run.sh` to run the scripts in order. They will save the run expectancy matrix, event run values, and wOBA weights to the `data/` directory.
