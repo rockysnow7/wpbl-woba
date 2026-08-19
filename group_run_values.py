@@ -40,9 +40,24 @@ if __name__ == "__main__":
         + "/"
         + df["outs"].astype(str)
     )
-    df["half_over"] = df["half"] != df["half"].shift(-1)
-    df["next_state"] = df["state"].shift(-1)
-    df.dropna(inplace=True)
+
+    df = df.sort_values(["game_id", "sequence"]).reset_index(drop=True)
+    next_half = df.groupby("game_id")["half"].shift(-1)
+    df["next_state"] = df.groupby("game_id")["state"].shift(-1)
+    df["half_over"] = (df["half"] != next_half) | next_half.isna()
+
+    df.dropna(
+        subset=[
+            "game_id",
+            "sequence",
+            "inning",
+            "half",
+            "state",
+            "event_type",
+            "runs_scored",
+        ],
+        inplace=True,
+    )
 
     df = df[
         [
