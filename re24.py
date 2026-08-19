@@ -14,5 +14,5 @@ if __name__ == "__main__":
         os.mkdir("data")
     re24.to_csv("data/re24.csv")
 
-    counts = df.groupby("state")["runs_remaining"].count()
+    counts = df["state"].value_counts()
     counts.to_csv("data/re24_counts.csv")
